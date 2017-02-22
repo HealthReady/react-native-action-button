@@ -39,9 +39,9 @@ export default class ActionButtonItem extends Component {
     }
 
     const translateXMap = {
-      center: this.props.parentSize/2,
+      center: 0,
       left: (this.props.parentSize - this.props.size) / 2 - 8,
-      right: this.props.parentSize + 12 - ((this.props.parentSize - this.props.size) / 2),
+      right: -(this.props.parentSize - this.props.size) / 2 + 8,
     }
 
     const translateX = translateXMap[this.props.position];
