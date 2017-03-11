@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import { StyleSheet, Text, View, Animated, TouchableOpacity, Platform } from 'react-native';
+import { StyleSheet, Text, View, Image, Animated, TouchableOpacity, Platform } from 'react-native';
 import ActionButtonItem from './ActionButtonItem';
 
 const alignItemsMap = {
@@ -140,6 +140,7 @@ export default class ActionButton extends Component {
     }
 
     const actionButtonStyles = [ this.getActionButtonStyles(), combinedStyle, animatedViewStyle ]
+      const actionButtonImageStyles = [ animatedViewStyle, {backgroundColor: 'transparent'} ]
     const shadowStyles = [styles.btnShadow, combinedStyle]
     return (
       <View style={[{ marginHorizontal: 8 }, !this.props.hideShadow && shadowStyles, this.props.style]}>
@@ -150,9 +151,17 @@ export default class ActionButton extends Component {
               this.props.onPress()
               if (this.props.children) this.animateButton()
             }}>
+          {this.props.backgroundImage ?
+              <View style={[this.getActionButtonStyles(), combinedStyle]}>
+                <Image source={this.props.backgroundImage} style={[styles.actionButtonImage, this.props.backgroundImageStyle]}>
+                </Image>
+                <Animated.View style={ actionButtonImageStyles }>
+                  {this._renderButtonIcon()}
+              </Animated.View>
+              </View>:
           <Animated.View style={ actionButtonStyles }>
             {this._renderButtonIcon()}
-          </Animated.View>
+          </Animated.View>}
         </TouchableOpacity>
       </View>
     );
@@ -315,6 +324,16 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     marginBottom: 12,
   },
+    actionButtonImage: {
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        height: null,
+        width: null,
+        resizeMode: 'contain',
+    },
   btn: {
     justifyContent: 'center',
     alignItems: 'center',
